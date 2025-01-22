@@ -1,7 +1,5 @@
 import telebot
 from telebot import types
-from telegram import Update
-#from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext
 
 bot = telebot.TeleBot('8019696712:AAEgtdeWDrJXJVEOBS3FPuyp6_zpljfWIrQ')
 
@@ -22,21 +20,22 @@ def start(message):
     bot.send_message(message.chat.id, f'Здраствуйте! Добро пожаловать в наш телеграм бот! Чем я вам могу помочь?', reply_markup=markup)
     bot.register_next_step_handler(message, on_click)
 
-
+@bot.message_handler(func=lambda message: message.text == 'VIP меню⭐️')
 def on_click(message):
-    if message.text == 'VIP меню⭐️':
-        bot.send_message(message.chat.id,'Вы открыли вкладку VIP меню, пожалуйста, прежде чем пользоваться этой функцией, вам нужно заплатить 99 рублей. С функцией "VIP меню" вы получаете: ранний доступ к привью; ранний доступ к монтажу видео; получать самые свежие новости нашего канала и проекта RaidMine; возможность присутствия на стримах и в видеороликах; доступ к нашим контактам (VK, Discord, Telegram). VIP меню действует только 1 месяц, по этому используйте её с пользой!!!')
-        markup = types.ReplyKeyboardMarkup()
-        btn8 = types.KeyboardButton('Да✅')
-        btn9 = types.KeyboardButton('Нет🚫')
-        markup.row(btn8, btn9)
-        bot.send_message(message.chat.id, 'Хотите приобрести этот товар?', reply_markup=markup)
-    elif message.text == 'Да✅':
-        bot.send_message(message.chat.id, 'бебебе')
+    bot.send_message(message.chat.id,'Вы открыли вкладку VIP меню, пожалуйста, прежде чем пользоваться этой функцией, вам нужно заплатить 99 рублей. С функцией "VIP меню" вы получаете: ранний доступ к привью; ранний доступ к монтажу видео; получать самые свежие новости нашего канала и проекта RaidMine; возможность присутствия на стримах и в видеороликах; доступ к нашим контактам (VK, Discord, Telegram). VIP меню действует только 1 месяц, по этому используйте её с пользой!!!')
+    markup = types.ReplyKeyboardMarkup()
+    btn8 = types.KeyboardButton('Да✅')
+    btn9 = types.KeyboardButton('Нет🚫')
+    markup.row(btn8, btn9)
+    bot.send_message(message.chat.id, 'Хотите приобрести этот товар?', reply_markup=markup)
 
+@bot.message_handler(func=lambda message: message.text == 'Да✅')
+def buy_vip(message):
+    bot.send_message(message.chat.id, 'Вы приобрели VIP меню!')
 
-
-
+@bot.message_handler(func=lambda message: message.text == 'Нет🚫')
+def decline_vip(message):
+    bot.send_message(message.chat.id, 'Вы отказались от VIP меню.')
 
 @bot.message_handler(commands=['start'])
 def main(message):
